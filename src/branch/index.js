@@ -37,7 +37,7 @@ export const create = async () => {
 
 export const pullAndRebaser = async () => {
 
-	const currentBranch = git.branch({ '--show-current': null })
+	const currentBranch = await git.branch(['-a']).then(({ current }) => current)
 
 	const selectedBaseBranch = await inquirer.prompt({
 		name: 'base_branch',
@@ -52,5 +52,5 @@ export const pullAndRebaser = async () => {
 	await git.pull(selectedBaseBranch.base_branch)
 	await git.checkout(currentBranch)
 	await git.rebase(selectedBaseBranch.base_branch)
-	console.log(chalk.greenBright(`✓ "${currentBranch}" rebased with the latest version of ${selectedBaseBranch.base_branch}`))
+	console.log(chalk.greenBright(`✓ ${currentBranch} rebased with the latest version of ${selectedBaseBranch.base_branch}`))
 }

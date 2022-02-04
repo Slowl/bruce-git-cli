@@ -1,6 +1,6 @@
 {
   "name": "gbruce",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "type": "module",
@@ -14,11 +14,7 @@
   "bin": "./index.js",
   "dependencies": {
     "chalk": "^5.0.0",
-    "chalk-animation": "^1.6.0",
-    "figlet": "^1.5.2",
-    "gradient-string": "^2.0.0",
     "inquirer": "^8.2.0",
-    "nanospinner": "^1.0.0",
     "simple-git": "^3.1.1"
   }
 }

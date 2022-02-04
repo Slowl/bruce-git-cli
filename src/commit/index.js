@@ -31,7 +31,7 @@ export const create = async () => {
 		type: 'number',
 		message: 'Write the number of your ticket : ',
 		default() {
-			return 'BRC-'
+			return 'BRC-XXXX'
 		}
 	})
 
@@ -50,7 +50,7 @@ export const create = async () => {
 	const userWantToPullAndRebase = await inquirer.prompt({
 		name: 'should_pull_and_rebase',
 		type: 'list',
-		message: `Pull and Rebase ${chalk.blueBright('v3-development')} ?`,
+		message: `Pull and Rebase a specific branch ?`,
 		choices: [
 			{ name: `${chalk.greenBright('✓')} Yes`, value: 'yes' },
 			{ name: `${chalk.redBright('✗')} No`, value: 'no' }
@@ -72,5 +72,5 @@ export const create = async () => {
 
 	console.log(chalk.greenBright('Commit successfully created !'))
 	console.log(gitMessage)
-	console.log(chalk.blue('Don\'t forget to push your commit !'))
+	console.log(chalk.bgCyan('Don\'t forget to push your commit !'))
 }

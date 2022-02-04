@@ -6,7 +6,6 @@ import { create as createBranch } from './src/branch/index.js'
 
 let selectedAction
 
-//#region FUNCTIONS
 const initiator = async () => {
 	const selectGitAction = await inquirer.prompt({
 		name: 'action_type',
