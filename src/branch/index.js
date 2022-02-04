@@ -51,6 +51,6 @@ export const pullAndRebaser = async () => {
 	await git.checkout(selectedBaseBranch.base_branch)
 	await git.pull(selectedBaseBranch.base_branch)
 	await git.checkout(currentBranch)
-	await git.rebase(['--interactive', selectedBaseBranch.base_branch])
+	await git.rebase([selectedBaseBranch.base_branch])
 	console.log(chalk.greenBright(`✓ ${currentBranch} rebased with the latest version of ${selectedBaseBranch.base_branch}`))
 }
