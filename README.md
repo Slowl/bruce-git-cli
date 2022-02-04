@@ -6,3 +6,5 @@ npx gbruce
 ```
 
 TODO: write how to use + options
+
+autotest #3
