@@ -7,4 +7,4 @@ npx gbruce
 
 TODO: write how to use + options
 
-autotest #3
+autotest #4
