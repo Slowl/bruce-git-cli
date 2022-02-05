@@ -2,7 +2,7 @@
   "name": "gbruce",
   "description": "gitBruce CLI for Bruce Web team",
   "author": "Hedi Kochad",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "source": "./src/index.ts",
   "main": "./app/index.js",
   "bin": "./app/index.js",
@@ -20,10 +20,10 @@
   },
   "devDependencies": {
     "@types/inquirer": "^8.2.0",
-    "parcel": "^2.2.1"
+    "typescript": "^4.5.5"
   },
   "scripts": {
-    "build": "parcel build --no-source-maps",
+    "build": "tsc --build --verbose",
     "start": "node ./app/index.js"
   },
   "license": "ISC"
