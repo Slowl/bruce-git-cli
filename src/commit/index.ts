@@ -6,7 +6,9 @@ import { git } from '../utils/index.js'
 
 export const create = async () => {
 
-	const selectedCommitType = await inquirer.prompt({
+	const selectedCommitType: {
+		commit_type: 'feat' | 'fix' | 'core' | 'dependecies' | 'doc' | 'env' | 'lang' | 'style' | 'test'
+	} = await inquirer.prompt({
 		name: 'commit_type',
 		type: 'list',
 		message: 'Choose the type of your commit : ',
@@ -19,14 +21,14 @@ export const create = async () => {
 			'env',
 			'lang',
 			'style',
-			'test'
+			'test',
 		],
 		default() {
 			return 'feat'
 		}
 	})
 
-	const selectedTicketNumber = await inquirer.prompt({
+	const selectedTicketNumber: { ticket_number: number } = await inquirer.prompt({
 		name: 'ticket_number',
 		type: 'number',
 		message: 'Write the number of your ticket : ',
@@ -35,19 +37,19 @@ export const create = async () => {
 		}
 	})
 
-	const selectedCommitScope = await inquirer.prompt({
+	const selectedCommitScope: { commit_scope: string } = await inquirer.prompt({
 		name: 'commit_scope',
 		type: 'input',
 		message: 'Write the scope of your commited files (Ex: Invoice List) : ',
 	})
 
-	const selectedCommitMessage = await inquirer.prompt({
+	const selectedCommitMessage: { commit_message: string } = await inquirer.prompt({
 		name: 'commit_message',
 		type: 'input',
 		message: 'Write the message of your commit : ',
 	})
 
-	const userWantToPullAndRebase = await inquirer.prompt({
+	const userWantToPullAndRebase: { should_pull_and_rebase: 'yes' | 'no' } = await inquirer.prompt({
 		name: 'should_pull_and_rebase',
 		type: 'list',
 		message: `Pull and Rebase a specific branch ?`,
@@ -61,16 +63,14 @@ export const create = async () => {
 	})
 
 
-	const gitMessage = `
+	const gitCommitMessage = `
 		${selectedCommitType.commit_type}: ${selectedCommitScope.commit_scope} - ${selectedCommitMessage.commit_message}
 
 		Jira: BRC-${selectedTicketNumber.ticket_number}
 		`
-	await git.commit(gitMessage)
+	await git.commit(gitCommitMessage)
 
 	userWantToPullAndRebase.should_pull_and_rebase === 'yes' && await pullAndRebaser()
 
-	console.log(chalk.greenBright('Commit successfully created !'))
-	console.log(gitMessage)
-	console.log(chalk.bgCyan('Don\'t forget to push your commit !'))
+	return gitCommitMessage
 }
