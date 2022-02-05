@@ -1,10 +1,9 @@
 
-import chalk from 'chalk'
 import inquirer from 'inquirer'
-import { git } from '../utils/index.js'
+import { git, information } from '../utils/index.js'
 
 export const create = async () => {
-	const selectedBaseBranch = await inquirer.prompt({
+	const selectedBaseBranch: { base_branch: string } = await inquirer.prompt({
 		name: 'base_branch',
 		type: 'input',
 		message: 'Specify the base branch of the repo (press `enter` for default) : ',
@@ -13,7 +12,7 @@ export const create = async () => {
 		}
 	})
 
-	const selectedTicketNumber = await inquirer.prompt({
+	const selectedTicketNumber: { ticket_number: number } = await inquirer.prompt({
 		name: 'ticket_number',
 		type: 'number',
 		message: 'Write the number of your ticket : ',
@@ -22,24 +21,24 @@ export const create = async () => {
 		}
 	})
 
-	const branchName = await inquirer.prompt({
+	const branchName: { name: string } = await inquirer.prompt({
 		name: 'name',
 		type: 'input',
 		message: 'Write the name of the new branch (Ex: `ma nouvelle branche`): ',
 	})
 
 	await git.checkout(selectedBaseBranch.base_branch)
-	await git.pull(selectedBaseBranch.base_branch)
-	console.log(chalk.greenBright(`✓ Pulled latest version of ${selectedBaseBranch.base_branch}`))
-	await git.checkout(['-b', `BRC-${selectedTicketNumber.ticket_number}-${branchName.name.trim().replaceAll(' ', '-')}` ])
-	console.log(chalk.greenBright('✓ Branch created'),`: "BRC-${selectedTicketNumber.ticket_number}-${branchName.name.trim().replaceAll(' ', '-')}"`)
+	await git.pull(selectedBaseBranch.base_branch).then(() => information.git_pull_success(selectedBaseBranch.base_branch))
+	await git.checkout(['-b', `BRC-${selectedTicketNumber.ticket_number}-${branchName.name.trim().replaceAll(' ', '-')}` ]).then(
+		() => information.git_create_branch_success({ ticketNumber: selectedTicketNumber.ticket_number, branchName: branchName.name })
+	)
 }
 
 export const pullAndRebaser = async () => {
 
 	const currentBranch = await git.branch(['-a']).then(({ current }) => current)
 
-	const selectedBaseBranch = await inquirer.prompt({
+	const selectedBaseBranch: { base_branch: string } = await inquirer.prompt({
 		name: 'base_branch',
 		type: 'input',
 		message: 'Specify the branch you want to pull and rebase to (press `enter` for default) : ',
@@ -51,6 +50,7 @@ export const pullAndRebaser = async () => {
 	await git.checkout(selectedBaseBranch.base_branch)
 	await git.pull(selectedBaseBranch.base_branch)
 	await git.checkout(currentBranch)
-	await git.rebase([selectedBaseBranch.base_branch])
-	console.log(chalk.greenBright(`✓ ${currentBranch} rebased with the latest version of ${selectedBaseBranch.base_branch}`))
+	await git.rebase([selectedBaseBranch.base_branch]).then(
+		() => information.git_rebase_success({ currentBranch, baseBranch: selectedBaseBranch.base_branch })
+	)
 }
