@@ -1,8 +1,8 @@
 
 import chalk from 'chalk'
 import inquirer from 'inquirer'
-import { pullAndRebaser } from '../branch/index.js'
-import { git } from '../utils/index.js'
+import { pullAndRebaser } from '../branch'
+import { git } from '../utils'
 
 export const create = async () => {
 
