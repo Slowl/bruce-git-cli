@@ -1,23 +1,30 @@
 {
   "name": "gbruce",
-  "version": "1.0.6",
   "description": "gitBruce CLI for Bruce Web team",
-  "main": "./app/index.js",
-  "type": "module",
-  "scripts": {
-    "build": "tsc --build --verbose",
-    "start": "node ./app/index.js"
-  },
-  "keywords": ["git", "bruce", "bruce.work", "cli"],
   "author": "Hedi Kochad",
-  "license": "ISC",
+  "version": "1.0.7",
+  "source": "./src/index.ts",
+  "main": "./app/index.js",
   "bin": "./app/index.js",
+  "type": "module",
+  "keywords": [
+    "git",
+    "bruce",
+    "bruce.work",
+    "cli"
+  ],
   "dependencies": {
     "chalk": "^5.0.0",
     "inquirer": "^8.2.0",
     "simple-git": "^3.1.1"
   },
   "devDependencies": {
-    "@types/inquirer": "^8.2.0"
-  }
+    "@types/inquirer": "^8.2.0",
+    "parcel": "^2.2.1"
+  },
+  "scripts": {
+    "build": "parcel build",
+    "start": "node ./app/index.js"
+  },
+  "license": "ISC"
 }

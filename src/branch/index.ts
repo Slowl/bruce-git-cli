@@ -1,6 +1,6 @@
 
 import inquirer from 'inquirer'
-import { git, information } from '../utils/index.js'
+import { git, information } from '../utils'
 
 export const create = async () => {
 	const selectedBaseBranch: { base_branch: string } = await inquirer.prompt({

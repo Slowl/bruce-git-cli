@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 import inquirer from 'inquirer'
-import { create as createCommit } from './commit/index.js'
-import { create as createBranch } from './branch/index.js'
-import { information } from './utils/index.js'
-import { SELECTED_ACTION } from './types/index.js'
+import { create as createCommit } from './commit'
+import { create as createBranch } from './branch'
+import { information } from './utils'
+import { SELECTED_ACTION } from './types'
 
 let selectedAction!: SELECTED_ACTION
 
