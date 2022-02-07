@@ -4,14 +4,16 @@ import inquirer from 'inquirer'
 import { pullAndRebaser } from '../branch/index.js'
 import { git } from '../utils/index.js'
 
-export const create = async () => {
+export const create = async ({ r, p }: { r?: boolean, p?: boolean }) => {
+
+	const currentBranch = await git.branch(['-a']).then(({ current }) => current)
 
 	const selectedCommitType: {
 		commit_type: 'feat' | 'fix' | 'core' | 'dependecies' | 'doc' | 'env' | 'lang' | 'style' | 'test'
 	} = await inquirer.prompt({
 		name: 'commit_type',
 		type: 'list',
-		message: 'Choose the type of your commit : ',
+		message: 'Choose the type of your commit: ',
 		choices: [
 			'feat',
 			'fix',
@@ -31,7 +33,7 @@ export const create = async () => {
 	const selectedTicketNumber: { ticket_number: number } = await inquirer.prompt({
 		name: 'ticket_number',
 		type: 'number',
-		message: 'Write the number of your ticket : ',
+		message: 'Write the number of your ticket: ',
 		default() {
 			return 'BRC-XXXX'
 		}
@@ -40,27 +42,40 @@ export const create = async () => {
 	const selectedCommitScope: { commit_scope: string } = await inquirer.prompt({
 		name: 'commit_scope',
 		type: 'input',
-		message: 'Write the scope of your commited files (Ex: Invoice List) : ',
+		message: 'Write the scope of your commited files (Ex: Invoice List): ',
 	})
 
 	const selectedCommitMessage: { commit_message: string } = await inquirer.prompt({
 		name: 'commit_message',
 		type: 'input',
-		message: 'Write the message of your commit : ',
+		message: 'Write the message of your commit: ',
 	})
 
-	const userWantToPullAndRebase: { should_pull_and_rebase: 'yes' | 'no' } = await inquirer.prompt({
+	const userWantToPullAndRebase: { should_pull_and_rebase: boolean } = !r ? await inquirer.prompt({
 		name: 'should_pull_and_rebase',
 		type: 'list',
-		message: `Pull and Rebase a specific branch ?`,
+		message: `Pull and Rebase a specific branch?`,
 		choices: [
-			{ name: `${chalk.greenBright('✓')} Yes`, value: 'yes' },
-			{ name: `${chalk.redBright('✗')} No`, value: 'no' }
+			{ name: `${chalk.greenBright('✓')} Yes`, value: true },
+			{ name: `${chalk.redBright('✗')} No`, value: false }
 		],
 		default() {
-			return { name: `${chalk.greenBright('✓')} Yes`, value: 'yes' }
+			return { name: `${chalk.greenBright('✓')} Yes`, value: true }
 		}
-	})
+	}) : { should_pull_and_rebase: false }
+
+	const userWantToPush: { should_push: boolean } = !p ? await inquirer.prompt({
+		name: 'should_push',
+		type: 'list',
+		message: 'Do you want to push the branch?',
+		choices: [
+			{ name: `${chalk.greenBright('✓')} Yes`, value: true },
+			{ name: `${chalk.redBright('✗')} No`, value: false }
+		],
+		default() {
+			return { name: `${chalk.greenBright('✓')} Yes`, value: true }
+		}
+	}) : { should_push: false }
 
 
 	const gitCommitMessage = `
@@ -70,7 +85,8 @@ export const create = async () => {
 		`
 	await git.commit(gitCommitMessage)
 
-	userWantToPullAndRebase.should_pull_and_rebase === 'yes' && await pullAndRebaser()
+	userWantToPullAndRebase.should_pull_and_rebase && await pullAndRebaser({ currentBranch })
+	userWantToPush.should_push && await git.push(['-u', 'origin', currentBranch])
 
-	return gitCommitMessage
+	return { gitCommitMessage, currentBranch, isPushed: userWantToPush.should_push }
 }

@@ -1,41 +1,33 @@
 #!/usr/bin/env node
 
-import inquirer from 'inquirer'
 import { create as createCommit } from './commit/index.js'
-import { create as createBranch } from './branch/index.js'
+import { create as createBranch, rebase } from './branch/index.js'
+import minimist from 'minimist'
 import { information } from './utils/index.js'
-import { SELECTED_ACTION } from './types/index.js'
+import { ACTION } from './types/index.js'
 
-let selectedAction!: SELECTED_ACTION
+const action = minimist(process.argv.slice(2))._[0]
+const { r, b, p } = minimist(process.argv.slice(2))
 
-const initiator = async () => {
-	const selectGitAction = await inquirer.prompt({
-		name: 'action_type',
-		type: 'list',
-		message: 'What do you want to do ? ',
-		choices: [
-			{ name: 'Create a new branch', value: SELECTED_ACTION.CREATE_NEW_BRANCH },
-			{ name: 'Commit changes', value: SELECTED_ACTION.CREATE_NEW_COMMIT }
-		],
-	})
-
-	selectedAction = selectGitAction.action_type
-}
-
-await initiator()
-
-switch (selectedAction) {
-	case SELECTED_ACTION.CREATE_NEW_BRANCH: {
+switch (action) {
+	case ACTION.BRANCH: {
 		await createBranch()
 		break
 	}
-	case SELECTED_ACTION.CREATE_NEW_COMMIT: {
-		await createCommit().then((commitMessage) => (
-			information.git_commit_create_success,
-			information.git_commit_message(commitMessage),
-			information.reminder_commit_push
-		))
+	case ACTION.COMMIT: {
+		await createCommit({ r, p }).then(({ gitCommitMessage, currentBranch, isPushed }) => {
+			information.git_commit_create_success()
+			information.git_commit_message(gitCommitMessage)
+			isPushed ? information.git_branch_push_success({ branchToPush: currentBranch }) : information.reminder_commit_push()
+		})
 		break
+	}
+	case ACTION.REBASE: {
+		await rebase({ b })
+		break
+	}
+	default: {
+		information.invalid_arguments()
 	}
 }
 
