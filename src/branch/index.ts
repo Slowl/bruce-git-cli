@@ -6,7 +6,7 @@ export const create = async () => {
 	const selectedBaseBranch: { base_branch: string } = await inquirer.prompt({
 		name: 'base_branch',
 		type: 'input',
-		message: 'Specify the base branch of the repo (press `enter` for default) : ',
+		message: 'Specify the base branch of the repo (press `enter` for default): ',
 		default() {
 			return 'v3-development'
 		}
@@ -34,14 +34,38 @@ export const create = async () => {
 	)
 }
 
-export const pullAndRebaser = async () => {
+export const rebase = async ({ b }: { b?: string }) => {
+
+	const baseBranch = b ?? 'v3-development'
+	const currentBranch = await git.branch(['-a']).then(({ current }) => current)
+
+	await git.checkout(baseBranch)
+	await git.pull(baseBranch)
+	await git.checkout(currentBranch)
+	await git.rebase([baseBranch]).then(
+		() => information.git_rebase_success({ currentBranch, baseBranch })
+	)
+}
+
+export const push = async ({ b, f, displayMessage = true }: { b?: string; f?: boolean; displayMessage?: boolean; }) => {
 
 	const currentBranch = await git.branch(['-a']).then(({ current }) => current)
+	const branchToPush = b ?? currentBranch
+	const remoteBranchExist = await git.listRemote(['origin', branchToPush]).then((response) => response)
+
+	await git.checkout(branchToPush)
+	remoteBranchExist && !f && await git.pull('origin', branchToPush)
+	await git.push('origin', branchToPush, f ? ['-f'] : []).then(
+		() => displayMessage && information.git_branch_push_success({ branchToPush })
+	)
+}
+
+export const pullAndRebaser = async ({ currentBranch }: { currentBranch: string }) => {
 
 	const selectedBaseBranch: { base_branch: string } = await inquirer.prompt({
 		name: 'base_branch',
 		type: 'input',
-		message: 'Specify the branch you want to pull and rebase to (press `enter` for default) : ',
+		message: 'Specify the branch you want to pull and rebase to (press `enter` for default): ',
 		default() {
 			return 'v3-development'
 		}
