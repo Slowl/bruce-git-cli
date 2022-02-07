@@ -62,7 +62,7 @@ export const create = async ({ r, p }: { r?: boolean, p?: boolean }) => {
 		default() {
 			return { name: `${chalk.greenBright('✓')} Yes`, value: true }
 		}
-	}) : { should_pull_and_rebase: false }
+	}) : { should_pull_and_rebase: true }
 
 	const userWantToPush: { should_push: boolean } = !p ? await inquirer.prompt({
 		name: 'should_push',
@@ -75,7 +75,7 @@ export const create = async ({ r, p }: { r?: boolean, p?: boolean }) => {
 		default() {
 			return { name: `${chalk.greenBright('✓')} Yes`, value: true }
 		}
-	}) : { should_push: false }
+	}) : { should_push: true }
 
 
 	const gitCommitMessage = `
