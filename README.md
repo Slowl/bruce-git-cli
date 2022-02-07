@@ -12,7 +12,7 @@ A simple CLI to facilitate and automate some git actions, created and optimized 
 
 Simply start the script with: 
 ```bash
-npx gbruce [action] [option]
+npx gbruce -- [action] [option]
 ```
 
 The CLI is more useful when coupled with a terminal alias. To create one :
@@ -28,7 +28,7 @@ nano .bashrc
 
 And then, at the bottom of the file add this line:
 ```bash
-alias aCustomAlias="npx gbruce"
+alias aCustomAlias="npx gbruce --"
 ```
 
 You can now start the CLI directly by using your alias `aCustomAlias` on any project.
@@ -43,7 +43,7 @@ npm install -g gbruce
 
 You can now create an alias like explained above by pasting this line in the correct file
 ```bash
-alias aCustomAlias="gbruce"
+alias aCustomAlias="gbruce --"
 ```
 ---
 #### Per project

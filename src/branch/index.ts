@@ -47,6 +47,20 @@ export const rebase = async ({ b }: { b?: string }) => {
 	)
 }
 
+
+export const push = async ({ b, f, displayMessage = true }: { b?: string; f?: boolean; displayMessage?: boolean; }) => {
+
+	const currentBranch = await git.branch(['-a']).then(({ current }) => current)
+	const branchToPush = b ?? currentBranch
+	const remoteBranchExist = await git.listRemote(['origin', branchToPush]).then((response) => response)
+
+	await git.checkout(branchToPush)
+	remoteBranchExist && !f && await git.pull('origin', branchToPush)
+	await git.push([f ? '-f' : '-u', 'origin', branchToPush]).then(
+		() => displayMessage && information.git_branch_push_success({ branchToPush })
+	)
+}
+
 export const pullAndRebaser = async ({ currentBranch }: { currentBranch: string }) => {
 
 	const selectedBaseBranch: { base_branch: string } = await inquirer.prompt({

@@ -51,19 +51,6 @@ export const create = async ({ r, p }: { r?: boolean, p?: boolean }) => {
 		message: 'Write the message of your commit: ',
 	})
 
-	const userWantToPullAndRebase: { should_pull_and_rebase: boolean } = !r ? await inquirer.prompt({
-		name: 'should_pull_and_rebase',
-		type: 'list',
-		message: `Pull and Rebase a specific branch?`,
-		choices: [
-			{ name: `${chalk.greenBright('✓')} Yes`, value: true },
-			{ name: `${chalk.redBright('✗')} No`, value: false }
-		],
-		default() {
-			return { name: `${chalk.greenBright('✓')} Yes`, value: true }
-		}
-	}) : { should_pull_and_rebase: false }
-
 	const userWantToPush: { should_push: boolean } = !p ? await inquirer.prompt({
 		name: 'should_push',
 		type: 'list',
@@ -75,14 +62,26 @@ export const create = async ({ r, p }: { r?: boolean, p?: boolean }) => {
 		default() {
 			return { name: `${chalk.greenBright('✓')} Yes`, value: true }
 		}
-	}) : { should_push: false }
+	}) : { should_push: true }
 
+	const userWantToPullAndRebase: { should_pull_and_rebase: boolean } = !r ? await inquirer.prompt({
+		name: 'should_pull_and_rebase',
+		type: 'list',
+		message: `Pull and Rebase a specific branch?`,
+		choices: [
+			{ name: `${chalk.greenBright('✓')} Yes`, value: true },
+			{ name: `${chalk.redBright('✗')} No`, value: false }
+		],
+		default() {
+			return { name: `${chalk.greenBright('✓')} Yes`, value: true }
+		}
+	}) : { should_pull_and_rebase: true }
 
 	const gitCommitMessage = `
-		${selectedCommitType.commit_type}: ${selectedCommitScope.commit_scope} - ${selectedCommitMessage.commit_message}
+${selectedCommitType.commit_type}: ${selectedCommitScope.commit_scope} - ${selectedCommitMessage.commit_message}
 
-		Jira: BRC-${selectedTicketNumber.ticket_number}
-		`
+Jira: BRC-${selectedTicketNumber.ticket_number}
+`
 	await git.commit(gitCommitMessage)
 
 	userWantToPullAndRebase.should_pull_and_rebase && await pullAndRebaser({ currentBranch })

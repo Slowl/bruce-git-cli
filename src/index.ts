@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
 import { create as createCommit } from './commit/index.js'
-import { create as createBranch, rebase } from './branch/index.js'
+import { create as createBranch, push, rebase } from './branch/index.js'
 import minimist from 'minimist'
 import { information } from './utils/index.js'
 import { ACTION } from './types/index.js'
 
 const action = minimist(process.argv.slice(2))._[0]
-const { r, b, p } = minimist(process.argv.slice(2))
+const { b, f, p, r } = minimist(process.argv.slice(2))
 
 switch (action) {
 	case ACTION.BRANCH: {
@@ -24,6 +24,10 @@ switch (action) {
 	}
 	case ACTION.REBASE: {
 		await rebase({ b })
+		break
+	}
+	case ACTION.PUSH: {
+		await push({ b, f })
 		break
 	}
 	default: {
