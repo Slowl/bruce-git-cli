@@ -12,7 +12,7 @@ A simple CLI to facilitate and automate some git actions, created and optimized 
 
 Simply start the script with: 
 ```bash
-npx gbruce [action] [option]
+npx gbruce -- [action] [option]
 ```
 
 The CLI is more useful when coupled with a terminal alias. To create one :
@@ -28,7 +28,7 @@ nano .bashrc
 
 And then, at the bottom of the file add this line:
 ```bash
-alias aCustomAlias="npx gbruce"
+alias aCustomAlias="npx gbruce --"
 ```
 
 You can now start the CLI directly by using your alias `aCustomAlias` on any project.
@@ -43,7 +43,7 @@ npm install -g gbruce
 
 You can now create an alias like explained above by pasting this line in the correct file
 ```bash
-alias aCustomAlias="gbruce"
+alias aCustomAlias="gbruce --"
 ```
 ---
 #### Per project
@@ -52,9 +52,9 @@ Don't do it, it's useless for the moment
 
 ---
 
-## UTILISATION
+## HOW TO USE
 
-The CLI allow 4 actions (for the moment).
+The CLI allows 4 actions (for the moment).
 
 
 #### `gbruce branch`
@@ -90,6 +90,8 @@ This action will make a rebase action with some automation. It will:
 | :--------------: | :-----: |:-------:|
 | `-b` `<name-of-the-base-branch>`| To use only if you want to rebase an other branch than -> | `v3-development` |
 
+---
+
 #### `gbruce push [option]`
 
 This action will make a push action with some automation. It will:
@@ -100,4 +102,4 @@ This action will make a push action with some automation. It will:
 | Option           | Description | Value |
 | :--------------: | :-----: |:-------:|
 | `-b` `<name-of-the-branch-to-push>`| To use only if you want to push an other branch than -> | `<current-branch>` |
-| `-f`| Speficfy if you want to push --force | false |
+| `-f`| Specify if you want to push --force | false |
