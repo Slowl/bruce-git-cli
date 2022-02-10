@@ -4,4 +4,5 @@ export enum ACTION {
 	COMMIT = 'commit',
 	REBASE = 'rebase',
 	PUSH = 'push',
+	HELP = 'help',
 }
