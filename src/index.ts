@@ -30,6 +30,10 @@ switch (action) {
 		await push({ b, f })
 		break
 	}
+	case ACTION.HELP: {
+		information.help()
+		break
+	}
 	default: {
 		information.invalid_arguments()
 	}
