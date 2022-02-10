@@ -1,5 +1,5 @@
 
-# gBruce - A git CLI for Bruce.work
+# 📦 gBruce - A git CLI for Bruce.work
 
 A simple CLI to facilitate and automate some git actions, created and optimized for Bruce's conventions.
 
@@ -103,3 +103,9 @@ This action will make a push action with some automation. It will:
 | :--------------: | :-----: |:-------:|
 | `-b` `<name-of-the-branch-to-push>`| To use only if you want to push an other branch than -> | `<current-branch>` |
 | `-f`| Specify if you want to push --force | false |
+
+---
+
+#### `gbruce help`
+
+This action will show you all the available actions and their accepted argument(s)
