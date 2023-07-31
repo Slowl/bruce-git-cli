@@ -77,20 +77,20 @@ This action will guide you to create a commit with the good naming convention. I
 | `-r`             | To use if you want to make a rebase after the commit | false |
 | `-p`             |  To use if you want to push your changes directly after the commit  | false |
 
----
+<!-- ---
 
 #### `gbruce rebase [option]`
 
 This action will make a rebase action with some automation. It will:
 
-- __Checkout__ and __pull__ the base branch (`v3-development` by default, if no option specified).
+- __Checkout__ and __pull__ the base branch (`development` by default, if no option specified).
 - __Rebase__ the base branch on the current branch.
 
 | Option           | Description | Value |
 | :--------------: | :-----: |:-------:|
-| `-b` `<name-of-the-base-branch>`| To use only if you want to rebase an other branch than -> | `v3-development` |
+| `-b` `<name-of-the-base-branch>`| To use only if you want to rebase an other branch than -> | `development` |
 
----
+--- -->
 
 #### `gbruce push [option]`
 

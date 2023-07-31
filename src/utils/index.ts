@@ -29,7 +29,7 @@ export const information = {
 		${chalk.redBright('-r')}: Pull and rebase the base branch.
 		${chalk.redBright('-p')}: Push your commit.
 
-• gbruce -- ${chalk.greenBright('rebase')} ${chalk.redBright('[option]')}: Will pull and rebase to v3-development, or another defined branch.
+• gbruce -- ${chalk.greenBright('rebase')} ${chalk.redBright('[option]')}: Will pull and rebase to development, or another defined branch.
 		${chalk.redBright('-b <name_of_a_branch')}: Define your base branch.
 
 • gbruce -- ${chalk.greenBright('push')} ${chalk.redBright('[option]')}: Will checkout and push the commit, and the branch if it doesn't exist in remote.

@@ -8,7 +8,7 @@ export const create = async () => {
 		type: 'input',
 		message: 'Specify the base branch of the repo (press `enter` for default): ',
 		default() {
-			return 'v3-development'
+			return 'development'
 		}
 	})
 
@@ -36,7 +36,7 @@ export const create = async () => {
 
 export const rebase = async ({ b }: { b?: string }) => {
 
-	const baseBranch = b ?? 'v3-development'
+	const baseBranch = b ?? 'development'
 	const currentBranch = await git.branch(['-a']).then(({ current }) => current)
 
 	await git.checkout(baseBranch)
@@ -68,7 +68,7 @@ export const pullAndRebaser = async ({ currentBranch }: { currentBranch: string 
 		type: 'input',
 		message: 'Specify the branch you want to pull and rebase to (press `enter` for default): ',
 		default() {
-			return 'v3-development'
+			return 'development'
 		}
 	})
 

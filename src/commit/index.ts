@@ -78,7 +78,7 @@ export const create = async ({ r, p }: { r?: boolean, p?: boolean }) => {
 	}) : { should_pull_and_rebase: true }
 
 	const gitCommitMessage = `
-${selectedCommitType.commit_type}: ${selectedCommitScope.commit_scope} - ${selectedCommitMessage.commit_message}
+${selectedCommitType.commit_type}: ${selectedCommitScope.commit_scope && (`${`${selectedCommitScope.commit_scope} - `}`)}${selectedCommitMessage.commit_message}
 
 Jira: BRC-${selectedTicketNumber.ticket_number}
 `
