@@ -2,7 +2,7 @@
   "name": "gbruce",
   "description": "gitBruce CLI for Bruce Web team",
   "author": "Hedi Kochad",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "source": "./src/index.ts",
   "main": "./app/index.js",
   "bin": "./app/index.js",
