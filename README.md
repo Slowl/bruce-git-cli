@@ -68,7 +68,7 @@ This action will guide you to create a branch with the good naming convention. I
 #### `gbruce commit [option]`
 This action will guide you to create a commit with the good naming convention. It will:
 
-- Create a commit step by step with all the information needed for a __valid__ commit (or @theFreedomBanana will fuck you up).
+- Create a commit step by step with all the information needed for a __valid__ commit (or I might fuck you up).
 - (optional) __Pull__ and __rebase__ the base branch specified.
 - (optional) __Push__ the branch to remote (it'll add it to the remote if it's a new branch).
 
